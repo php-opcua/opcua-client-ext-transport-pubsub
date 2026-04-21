@@ -1,0 +1,149 @@
+# OPC UA PubSub Subscriber for PHP
+
+> Pure PHP OPC UA PubSub Subscriber (Part 14). Extension of `php-opcua/opcua-client`. Listens to UADP or JSON NetworkMessages over UDP unicast and multicast. Sign and SignAndEncrypt group-key security. All types use public readonly properties. `ext-sockets` required.
+
+## What is this
+
+A PHP library that consumes OPC UA PubSub streams. Publishers broadcast `DataSetMessage` payloads inside UADP or JSON `NetworkMessage` frames over UDP; this package decodes them, demuxes on `(publisherId, writerGroupId, dataSetWriterId)`, and hands them to the application as typed `DataSetMessage` DTOs with named fields. Supports PHP 8.2 through 8.5.
+
+## Use cases
+
+- Consume process variables broadcast by a PLC, SCADA, or historian via OPC UA PubSub
+- Subscribe to UDP multicast streams on industrial networks
+- Integrate PubSub data into PHP/Laravel/Symfony workers without a C extension
+- Verify and decrypt signed and encrypted PubSub streams with pre-shared keys or a Security Key Service
+
+## Key features
+
+- UDP transport — unicast and IPv4 multicast (`MCAST_JOIN_GROUP` with legacy `IP_ADD_MEMBERSHIP` fallback), `SO_REUSEADDR`, non-blocking sockets, `socket_select` timeout, configurable receive buffer and TTL
+- UADP codec — Part 14 §6.2 binary encoding. PublisherId Byte/UInt16/UInt32/UInt64/String, GroupHeader, PayloadHeader with one or more DataSetMessages, optional network-message timestamp. Variant, RawData, and DataValue field encodings. Chunking, promoted fields, and non-DataSet NetworkMessageTypes are rejected with a clear error
+- JSON codec — reversible encoding from Part 14 §7.2 (encode + decode, no external metadata required)
+- Subscriber runtime — event loop over N transports, demux by `(publisherId, writerGroupId, dataSetWriterId)`, blocking `run()` and non-blocking `poll(int $timeoutMs)`, signal-handler-friendly `stop()`
+- PubSub security — Sign (HMAC-SHA256) and SignAndEncrypt (AES-256-CBC). Pre-shared keys via `StaticGroupKeyProvider` or SKS-backed rotation via `SksGroupKeyProvider` (calls `GetSecurityKeys` from Part 14 §8.4.2 through a classic `OpcUaClientInterface`). Supports `PubSub-Aes256-CTR` (32+32+4) and `PubSub-Aes128-CTR` (32+16+4) key layouts
+- Metadata loaders — `DataSetMetaData::fromArray()`, `fromJsonFile()`, `fromXmlString()`, `fromXmlFile()`, `fromBinary()`, `fetchFromServer()`. XML loader accepts both compact `<DataSetMetaData>` and the OPC UA `<DataSetMetaDataType>` / `<FieldMetaData>` naming. Binary decoder walks the Part 14 §6.2.2 layout. `fetchFromServer()` reads a Variable through a connected classic client and honours already-decoded ExtensionObject codec results
+- PSR-3 logging — any PSR-3 logger plugs in; `NullLogger` by default
+- PSR-14 events — `NetworkMessageReceived`, `DataSetMessageReceived`, `DataSetFieldReceived`, `MessageDecodeError`, `SecurityValidationFailed`, `TransportOpened`, `TransportClosed`, `TransportError`. `NullPubSubEventDispatcher` by default (zero overhead)
+- Pluggable transports — `PubSubTransportInterface` is the stable extension point. Third-party packages (MQTT, AMQP, ...) ship their own implementations without touching this package
+- Module system — `PubSubModule` base class + `DataSetReaderModule` built-in. Custom modules register via `SubscriberBuilder::addModule()`
+- MockClient-driven unit coverage — every codec round-trip, UDP loopback send/receive, kernel demux, builder wiring, security unwrap, metadata loaders, and SKS key fetch are covered without a real publisher
+- Typed everywhere — all DTOs use public readonly properties
+
+## Property access style
+
+All Type classes and result DTOs use public readonly properties. Access is `$msg->fields`, `$field->name`, `$opts->interface` — not `$msg->getFields()` or `$opts['interface']`.
+
+## Architecture
+
+- SubscriberBuilder (src/SubscriberBuilder.php): entry point, fluent config (`setLogger`, `setEventDispatcher`, `onDataSetMessage`, `addModule`, `setCodec`, `useJson`). Terminals: `listenUdp(endpoint, transport, readers, security)` and `listenOn(transports, readers, security)`
+- Subscriber (src/Subscriber.php): thin proxy implementing `OpcUaSubscriberInterface`. `run()`, `poll(int $timeoutMs): DataSetMessage[]`, `stop()`, `isRunning()`
+- OpcUaSubscriberInterface (src/OpcUaSubscriberInterface.php): public API contract
+- Kernel/ (src/Kernel/): event-loop infrastructure
+  - PubSubKernel: polls transports, decodes, demuxes, dispatches events, invokes modules and user callbacks
+  - PubSubKernelInterface: surface that modules depend on
+  - NullPubSubEventDispatcher: zero-overhead PSR-14 fallback
+- Module/ (src/Module/)
+  - PubSubModule: abstract base
+  - DataSetReaderModule: default built-in module carrying the reader configs
+- Transport/ (src/Transport/)
+  - PubSubTransportInterface: `open`, `close`, `poll`, `isOpen`, `transportUri`
+  - ReceivedPayload: readonly DTO (`data`, `sourceUri`, `receivedAt`, `metadata`)
+  - UdpOptions: readonly DTO (`interface`, `receiveBufferSize`, `ttl`, `reuseAddress`)
+  - UdpTransport: ext-sockets implementation
+- Encoding/ (src/Encoding/)
+  - NetworkMessageCodec: codec interface
+  - UadpNetworkMessageCodec / UadpDataSetMessageCodec: binary encoding
+  - JsonNetworkMessageCodec / JsonDataSetMessageCodec: reversible JSON encoding
+- Security/ (src/Security/)
+  - PubSubSecurityMode: enum (None, Sign, SignAndEncrypt)
+  - PubSubSecurityOptions: `unwrap(string): string`
+  - GroupKeyProviderInterface: `signingKey`, `encryptingKey`, `keyNonce`, `refresh`
+  - StaticGroupKeyProvider: pre-shared keys
+  - SksGroupKeyProvider: calls `GetSecurityKeys` through a classic client
+- Types/ (src/Types/): readonly DTOs and enums — NetworkMessage, DataSetMessage, DataSetField, FieldMetaData, DataSetMetaData, PublishedDataSet, DataSetReaderConfig, ReaderGroupConfig, PubSubConnectionConfig, FieldEncoding
+- Event/ (src/Event/): 8 PSR-14 event classes
+- Exception/ (src/Exception/): UnsupportedTransportException, PubSubDecodeException, InvalidDataSetReaderException, PubSubSecurityException
+
+## Installation
+
+```
+composer require php-opcua/opcua-client-ext-transport-pubsub
+```
+
+Requires PHP >= 8.2, `ext-sockets`, and `php-opcua/opcua-client`.
+
+## Quick example
+
+```php
+use PhpOpcua\Client\ExtTransportPubSub\SubscriberBuilder;
+use PhpOpcua\Client\ExtTransportPubSub\Types\DataSetMetaData;
+use PhpOpcua\Client\ExtTransportPubSub\Types\DataSetReaderConfig;
+
+$metadata = DataSetMetaData::fromJsonFile('/etc/opcua/line1.json');
+
+$subscriber = SubscriberBuilder::create()
+    ->onDataSetMessage(function ($msg) {
+        foreach ($msg->fields as $field) {
+            echo "{$field->name} = {$field->getScalar()}\n";
+        }
+    })
+    ->listenUdp(
+        endpoint: 'opc.udp://239.0.0.1:4840',
+        readers: [new DataSetReaderConfig(
+            publisherId: 100,
+            writerGroupId: 1,
+            dataSetWriterId: 1,
+            dataSetMetaData: $metadata,
+        )],
+    );
+
+$subscriber->run();
+```
+
+## Secured stream (pre-shared keys)
+
+```php
+use PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityMode;
+use PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityOptions;
+use PhpOpcua\Client\ExtTransportPubSub\Security\StaticGroupKeyProvider;
+
+$subscriber = SubscriberBuilder::create()
+    ->listenUdp(
+        endpoint: 'opc.udp://239.0.0.1:4840',
+        security: new PubSubSecurityOptions(
+            mode: PubSubSecurityMode::SignAndEncrypt,
+            keyProvider: new StaticGroupKeyProvider(
+                signingKey: hex2bin($_ENV['PUBSUB_SIGN']),
+                encryptingKey: hex2bin($_ENV['PUBSUB_ENC']),
+                keyNonce: hex2bin($_ENV['PUBSUB_NONCE']),
+            ),
+        ),
+        readers: [$reader],
+    );
+```
+
+## Non-blocking polling
+
+```php
+while (! $shouldStop) {
+    foreach ($subscriber->poll(timeoutMs: 250) as $msg) {
+        handle($msg);
+    }
+    doOtherWork();
+}
+```
+
+## Custom transport
+
+Implement `PubSubTransportInterface` and pass the instance via `SubscriberBuilder::listenOn(transports: [$yours], readers: [...])`. The subscriber is agnostic to the underlying transport — this is how `php-opcua/opcua-client-ext-mqtt` plugs in.
+
+## Requirements
+
+- PHP >= 8.2
+- ext-sockets
+- ext-openssl (transitive, required by the core)
+- php-opcua/opcua-client ^4.4
+- psr/log ^3.0 and psr/event-dispatcher ^1.0 (interface-only)
+
+## Repository
+
+https://github.com/php-opcua/opcua-client-ext-transport-pubsub

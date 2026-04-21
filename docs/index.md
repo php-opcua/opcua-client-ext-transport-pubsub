@@ -1,0 +1,24 @@
+# Documentation Index
+
+- Getting started
+  - [Overview](./overview.md)
+  - [Installation](./getting-started/installation.md)
+  - [Quick start](./getting-started/quick-start.md)
+- Concepts
+  - [How it works](./concepts/how-it-works.md)
+  - [Encodings (UADP & JSON)](./concepts/encodings.md)
+- API
+  - [Subscriber & builder](./api/subscriber.md)
+  - [Transports](./api/transports.md)
+  - [Readers & metadata](./api/readers-and-metadata.md)
+  - [Modules](./api/modules.md)
+  - [Events](./api/events.md)
+- Security
+  - [Group-key security](./security/overview.md)
+- Recipes
+  - [Subscribe to a multicast group](./recipes/multicast-subscription.md)
+  - [Rotating keys with an SKS](./recipes/sks-key-rotation.md)
+- Testing
+  - [Testing the kernel in isolation](./testing/overview.md)
+- Reference
+  - [Exceptions](./reference/exceptions.md)
