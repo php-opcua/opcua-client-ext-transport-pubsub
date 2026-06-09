@@ -7,8 +7,42 @@ on:
     branches: [ main, master ]
 
 jobs:
-  unit:
+  format:
     if: ${{ !startsWith(github.event.head_commit.message, '[DOC]') }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    name: Format check
+    steps:
+      - name: Checkout extension
+        uses: actions/checkout@v6
+        with:
+          path: opcua-client-ext-transport-pubsub
+
+      - name: Checkout core (sibling path dependency)
+        uses: actions/checkout@v6
+        with:
+          repository: php-opcua/opcua-client
+          ref: master
+          path: opcua-client
+
+      - name: Setup PHP 8.5
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: openssl, sockets
+          coverage: none
+
+      - name: Install Composer dependencies
+        working-directory: opcua-client-ext-transport-pubsub
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Check code style
+        working-directory: opcua-client-ext-transport-pubsub
+        run: composer format:check
+
+  unit:
+    if: ${{ !cancelled() && !startsWith(github.event.head_commit.message, '[DOC]') }}
+    needs: format
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -41,11 +75,6 @@ jobs:
       - name: Install Composer dependencies
         working-directory: opcua-client-ext-transport-pubsub
         run: composer install --no-interaction --prefer-dist
-
-      - name: Check code style
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.5'
-        working-directory: opcua-client-ext-transport-pubsub
-        run: composer format:check
 
       - name: Run unit tests
         working-directory: opcua-client-ext-transport-pubsub
@@ -88,12 +117,13 @@ jobs:
 
       - name: Start OPC UA test servers + PubSub publisher
         id: opcua
-        uses: php-opcua/uanetstandard-test-suite@master
+        uses: php-opcua/uanetstandard-test-suite@v1.5.1
 
       - name: Run integration tests
         working-directory: opcua-client-ext-transport-pubsub
         env:
           OPCUA_CERTS_DIR: ${{ steps.opcua.outputs.certs-dir }}
+          OPCUA_PUBSUB_INTERFACE: '0.0.0.0'
         run: vendor/bin/pest --group=integration --log-junit=results/junit.xml ${{ matrix.php-version == '8.5' && '--coverage-clover=coverage/clover.xml' || '' }}
 
       - name: Upload coverage to Codecov
@@ -113,7 +143,7 @@ jobs:
           flags: test-results
           disable_search: true
 
-      - name: Server logs (on failure)
+      - name: UA-.NETStandard server logs (on failure)
         if: failure()
         working-directory: .uanetstandard-test-suite
         run: docker compose logs --tail=100
