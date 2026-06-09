@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [v4.4.0] - 2026-06-09
+## [v4.4.0] - 2026-06-09 
 
 Aligns the package with the **v4.4.0** ecosystem release and adopts the
 transport-extension naming convention.
