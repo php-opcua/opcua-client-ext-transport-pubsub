@@ -119,11 +119,18 @@ jobs:
         id: opcua
         uses: php-opcua/uanetstandard-test-suite@v1.5.1
 
+      # Give docker0 carrier so the relay's datagrams to host.docker.internal (172.17.0.1) reach the host.
+      - name: Keep default bridge (docker0) up for the PubSub relay
+        run: |
+          docker run -d --rm --name pubsub-bridge-keepalive --network bridge busybox sleep 1800
+          ip -4 addr show docker0 || true
+
       - name: Run integration tests
         working-directory: opcua-client-ext-transport-pubsub
         env:
           OPCUA_CERTS_DIR: ${{ steps.opcua.outputs.certs-dir }}
-          OPCUA_PUBSUB_INTERFACE: '0.0.0.0'
+          # Bind on all interfaces: the relay delivers to 172.17.0.1, not loopback.
+          OPCUA_PUBSUB_ENDPOINT: 'opc.udp://0.0.0.0:14850'
         run: vendor/bin/pest --group=integration --log-junit=results/junit.xml ${{ matrix.php-version == '8.5' && '--coverage-clover=coverage/clover.xml' || '' }}
 
       - name: Upload coverage to Codecov

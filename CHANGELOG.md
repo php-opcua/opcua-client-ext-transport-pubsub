@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [v4.4.0] - 2026-06-x
+## [v4.4.0] - 2026-06-09
 
 Aligns the package with the **v4.4.0** ecosystem release and adopts the
 transport-extension naming convention.
@@ -115,5 +115,5 @@ package — it only adds the `PhpOpcua\Client\ExtTransportPubSub\*` namespace.
 
 - PHP >= 8.2 (tested on 8.2, 8.3, 8.4, 8.5)
 - `ext-sockets`
-- `php-opcua/opcua-client` ^4.3
+- `php-opcua/opcua-client` ^4.4
 - `psr/log` ^3.0 and `psr/event-dispatcher` ^1.0 (interface-only)
