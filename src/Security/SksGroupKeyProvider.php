@@ -52,7 +52,8 @@ final class SksGroupKeyProvider implements GroupKeyProviderInterface
         private readonly NodeId|string $methodNodeId = self::DEFAULT_METHOD_NODE_ID,
         private readonly string $securityPolicyUri = self::POLICY_AES256_CTR,
         private readonly int $requestedKeyCount = 1,
-    ) {}
+    ) {
+    }
 
     public function signingKey(): string
     {

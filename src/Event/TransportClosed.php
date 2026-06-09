@@ -14,5 +14,6 @@ final readonly class TransportClosed
      */
     public function __construct(
         public string $transportUri,
-    ) {}
+    ) {
+    }
 }

@@ -29,7 +29,8 @@ final readonly class DataSetMetaData
         public int $majorVersion = 1,
         public int $minorVersion = 0,
         public ?string $description = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<string, mixed> $data

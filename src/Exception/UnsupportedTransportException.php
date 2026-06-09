@@ -9,4 +9,6 @@ use RuntimeException;
 /**
  * Thrown when a transport cannot be opened or used.
  */
-class UnsupportedTransportException extends RuntimeException {}
+class UnsupportedTransportException extends RuntimeException
+{
+}

@@ -22,5 +22,6 @@ final readonly class DataSetFieldReceived
         public int $dataSetWriterId,
         public int|string $publisherId,
         public int $writerGroupId,
-    ) {}
+    ) {
+    }
 }

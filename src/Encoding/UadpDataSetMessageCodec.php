@@ -19,16 +19,25 @@ use PhpOpcua\Client\Types\Variant;
 final class UadpDataSetMessageCodec
 {
     private const FLAG1_VALID = 0x01;
+
     private const FLAG1_FIELD_ENCODING_MASK = 0x06;
+
     private const FLAG1_FIELD_ENCODING_SHIFT = 1;
+
     private const FLAG1_SEQ_NUMBER = 0x08;
+
     private const FLAG1_STATUS = 0x10;
+
     private const FLAG1_CFG_MAJOR = 0x20;
+
     private const FLAG1_CFG_MINOR = 0x40;
+
     private const FLAG1_FLAGS2 = 0x80;
 
     private const FLAG2_MESSAGE_TYPE_MASK = 0x0F;
+
     private const FLAG2_TIMESTAMP = 0x10;
+
     private const FLAG2_PICOSECONDS = 0x20;
 
     private const MESSAGE_TYPE_DATA_KEYFRAME = 0x00;

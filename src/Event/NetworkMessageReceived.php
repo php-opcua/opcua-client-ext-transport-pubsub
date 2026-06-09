@@ -18,5 +18,6 @@ final readonly class NetworkMessageReceived
     public function __construct(
         public NetworkMessage $message,
         public string $transportUri,
-    ) {}
+    ) {
+    }
 }

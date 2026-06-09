@@ -18,5 +18,6 @@ final readonly class TransportError
     public function __construct(
         public Throwable $error,
         public string $transportUri,
-    ) {}
+    ) {
+    }
 }

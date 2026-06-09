@@ -9,4 +9,6 @@ use InvalidArgumentException;
 /**
  * Thrown when a DataSetReaderConfig or DataSetMetaData is built with invalid values.
  */
-class InvalidDataSetReaderException extends InvalidArgumentException {}
+class InvalidDataSetReaderException extends InvalidArgumentException
+{
+}

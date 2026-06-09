@@ -22,7 +22,8 @@ final class FakeTransport implements PubSubTransportInterface
 
     public function __construct(
         public string $uri = 'fake://test',
-    ) {}
+    ) {
+    }
 
     public function enqueue(string $bytes): void
     {

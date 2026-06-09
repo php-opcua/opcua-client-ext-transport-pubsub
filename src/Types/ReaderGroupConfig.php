@@ -16,5 +16,6 @@ final readonly class ReaderGroupConfig
     public function __construct(
         public string $name,
         public array $readers,
-    ) {}
+    ) {
+    }
 }

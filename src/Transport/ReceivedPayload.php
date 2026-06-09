@@ -20,5 +20,6 @@ final readonly class ReceivedPayload
         public string $sourceUri,
         public float $receivedAt,
         public array $metadata = [],
-    ) {}
+    ) {
+    }
 }

@@ -13,6 +13,7 @@ use Socket;
 final class UdpTransport implements PubSubTransportInterface
 {
     private const MULTICAST_IPV4_START = 0xE0000000;
+
     private const MULTICAST_IPV4_END = 0xEFFFFFFF;
 
     private readonly UdpOptions $options;

@@ -9,4 +9,6 @@ use RuntimeException;
 /**
  * Thrown when a NetworkMessage or DataSetMessage cannot be decoded.
  */
-class PubSubDecodeException extends RuntimeException {}
+class PubSubDecodeException extends RuntimeException
+{
+}

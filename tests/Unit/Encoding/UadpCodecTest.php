@@ -202,9 +202,9 @@ describe('UadpNetworkMessageCodec — unsupported features', function () {
         $codec = new UadpNetworkMessageCodec();
         $publisherId = 100;
         $secureFrame = (new UadpNetworkMessageCodec(
-            security: new \PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityOptions(
-                \PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityMode::Sign,
-                new \PhpOpcua\Client\ExtTransportPubSub\Security\StaticGroupKeyProvider(
+            security: new PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityOptions(
+                PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityMode::Sign,
+                new PhpOpcua\Client\ExtTransportPubSub\Security\StaticGroupKeyProvider(
                     str_repeat("\x01", 32),
                     str_repeat("\x02", 32),
                     str_repeat("\x03", 4),
@@ -220,7 +220,7 @@ describe('UadpNetworkMessageCodec — unsupported features', function () {
         ));
 
         expect(fn () => $codec->decode($secureFrame, []))
-            ->toThrow(\PhpOpcua\Client\ExtTransportPubSub\Exception\PubSubSecurityException::class, 'no PubSubSecurityOptions');
+            ->toThrow(PhpOpcua\Client\ExtTransportPubSub\Exception\PubSubSecurityException::class, 'no PubSubSecurityOptions');
     });
 
     it('rejects a payload declaring a non-DataSet NetworkMessageType', function () {
@@ -232,8 +232,8 @@ describe('UadpNetworkMessageCodec — unsupported features', function () {
     });
 
     it('rejects a DataSetMessage with the valid bit cleared', function () {
-        $dsCodec = new \PhpOpcua\Client\ExtTransportPubSub\Encoding\UadpDataSetMessageCodec();
-        $decoder = new \PhpOpcua\Client\Encoding\BinaryDecoder(chr(0x00));
+        $dsCodec = new PhpOpcua\Client\ExtTransportPubSub\Encoding\UadpDataSetMessageCodec();
+        $decoder = new PhpOpcua\Client\Encoding\BinaryDecoder(chr(0x00));
 
         expect(fn () => $dsCodec->decode($decoder, 7, null))
             ->toThrow(PubSubDecodeException::class, 'valid bit');
@@ -262,11 +262,11 @@ describe('UadpDataSetMessageCodec — RawData encoding', function () {
             ],
         );
 
-        $dsCodec = new \PhpOpcua\Client\ExtTransportPubSub\Encoding\UadpDataSetMessageCodec();
-        $encoder = new \PhpOpcua\Client\Encoding\BinaryEncoder();
+        $dsCodec = new PhpOpcua\Client\ExtTransportPubSub\Encoding\UadpDataSetMessageCodec();
+        $encoder = new PhpOpcua\Client\Encoding\BinaryEncoder();
         $dsCodec->encode($encoder, $rawMessage, $meta);
 
-        $decoder = new \PhpOpcua\Client\Encoding\BinaryDecoder($encoder->getBuffer());
+        $decoder = new PhpOpcua\Client\Encoding\BinaryDecoder($encoder->getBuffer());
         $decoded = $dsCodec->decode($decoder, 7, $meta);
 
         expect($decoded->fieldEncoding)->toBe(FieldEncoding::RawData);
@@ -287,10 +287,10 @@ describe('UadpDataSetMessageCodec — RawData encoding', function () {
         );
         $nm = new NetworkMessage(100, 1, 0, 0, null, [$dsm]);
 
-        $dsCodec = new \PhpOpcua\Client\ExtTransportPubSub\Encoding\UadpDataSetMessageCodec();
-        $encoder = new \PhpOpcua\Client\Encoding\BinaryEncoder();
+        $dsCodec = new PhpOpcua\Client\ExtTransportPubSub\Encoding\UadpDataSetMessageCodec();
+        $encoder = new PhpOpcua\Client\Encoding\BinaryEncoder();
         $dsCodec->encode($encoder, $dsm, $meta);
-        $decoder = new \PhpOpcua\Client\Encoding\BinaryDecoder($encoder->getBuffer());
+        $decoder = new PhpOpcua\Client\Encoding\BinaryDecoder($encoder->getBuffer());
 
         expect(fn () => $dsCodec->decode($decoder, 7, null))
             ->toThrow(PubSubDecodeException::class, 'RawData');

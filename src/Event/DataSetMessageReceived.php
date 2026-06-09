@@ -22,5 +22,6 @@ final readonly class DataSetMessageReceived
         public string $transportUri,
         public int|string $publisherId,
         public int $writerGroupId,
-    ) {}
+    ) {
+    }
 }

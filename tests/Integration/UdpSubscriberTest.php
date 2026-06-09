@@ -15,7 +15,7 @@ describe('UDP subscriber — UADP round-trip on loopback', function () {
         $port = TestHelper::pickFreeLoopbackPort();
         $subscriber = SubscriberBuilder::create()
             ->listenOn(
-                transports: [new \PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
+                transports: [new PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
                     "opc.udp://127.0.0.1:{$port}",
                     new UdpOptions(interface: '127.0.0.1'),
                 )],
@@ -56,7 +56,7 @@ describe('UDP subscriber — UADP round-trip on loopback', function () {
         $port = TestHelper::pickFreeLoopbackPort();
         $subscriber = SubscriberBuilder::create()
             ->listenOn(
-                transports: [new \PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
+                transports: [new PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
                     "opc.udp://127.0.0.1:{$port}",
                     new UdpOptions(interface: '127.0.0.1'),
                 )],
@@ -97,7 +97,7 @@ describe('UDP subscriber — UADP round-trip on loopback', function () {
         $port = TestHelper::pickFreeLoopbackPort();
         $subscriber = SubscriberBuilder::create()
             ->listenOn(
-                transports: [new \PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
+                transports: [new PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
                     "opc.udp://127.0.0.1:{$port}",
                     new UdpOptions(interface: '127.0.0.1', receiveBufferSize: 262144),
                 )],
@@ -136,7 +136,7 @@ describe('UDP subscriber — JSON round-trip on loopback', function () {
         $subscriber = SubscriberBuilder::create()
             ->useJson()
             ->listenOn(
-                transports: [new \PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
+                transports: [new PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport(
                     "opc.udp://127.0.0.1:{$port}",
                     new UdpOptions(interface: '127.0.0.1'),
                 )],

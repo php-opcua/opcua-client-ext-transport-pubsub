@@ -28,10 +28,14 @@ abstract class PubSubModule
      * @param int $writerGroupId
      * @param string $transportUri
      */
-    public function onDataSetMessage(DataSetMessage $message, int|string $publisherId, int $writerGroupId, string $transportUri): void {}
+    public function onDataSetMessage(DataSetMessage $message, int|string $publisherId, int $writerGroupId, string $transportUri): void
+    {
+    }
 
     /**
      * @return void
      */
-    public function reset(): void {}
+    public function reset(): void
+    {
+    }
 }

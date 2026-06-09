@@ -20,5 +20,6 @@ final readonly class MessageDecodeError
         public Throwable $error,
         public string $transportUri,
         public string $payloadPreview,
-    ) {}
+    ) {
+    }
 }

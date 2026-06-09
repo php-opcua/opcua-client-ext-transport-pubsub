@@ -30,7 +30,8 @@ final readonly class DataSetMessage
         public int $status = 0,
         public int $configVersionMajor = 0,
         public int $configVersionMinor = 0,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

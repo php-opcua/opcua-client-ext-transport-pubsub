@@ -21,35 +21,55 @@ use PhpOpcua\Client\ExtTransportPubSub\Types\NetworkMessage;
 final class UadpNetworkMessageCodec implements NetworkMessageCodec
 {
     private const FLAGS_VERSION_MASK = 0x0F;
+
     private const FLAGS_PUBLISHER_ID = 0x10;
+
     private const FLAGS_GROUP_HEADER = 0x20;
+
     private const FLAGS_PAYLOAD_HEADER = 0x40;
+
     private const FLAGS_EXT1 = 0x80;
 
     private const EXT1_PUBLISHER_ID_TYPE_MASK = 0x07;
+
     private const EXT1_DATASET_CLASS_ID = 0x08;
+
     private const EXT1_SECURITY = 0x10;
+
     private const EXT1_TIMESTAMP = 0x20;
+
     private const EXT1_PICOSECONDS = 0x40;
+
     private const EXT1_EXT2 = 0x80;
 
     private const EXT2_CHUNK = 0x01;
+
     private const EXT2_PROMOTED_FIELDS = 0x02;
+
     private const EXT2_MESSAGE_TYPE_MASK = 0x1C;
 
     private const PUB_ID_TYPE_BYTE = 0;
+
     private const PUB_ID_TYPE_UINT16 = 1;
+
     private const PUB_ID_TYPE_UINT32 = 2;
+
     private const PUB_ID_TYPE_UINT64 = 3;
+
     private const PUB_ID_TYPE_STRING = 4;
 
     private const GROUP_WRITER_ID = 0x01;
+
     private const GROUP_VERSION = 0x02;
+
     private const GROUP_NETWORK_MESSAGE_NUMBER = 0x04;
+
     private const GROUP_SEQUENCE_NUMBER = 0x08;
 
     private const SEC_FLAG_SIGNED = 0x01;
+
     private const SEC_FLAG_ENCRYPTED = 0x02;
+
     private const SEC_FLAG_FOOTER = 0x04;
 
     private readonly UadpDataSetMessageCodec $dataSetCodec;

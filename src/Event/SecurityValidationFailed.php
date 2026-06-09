@@ -20,5 +20,6 @@ final readonly class SecurityValidationFailed
         public Throwable $error,
         public string $transportUri,
         public string $reason,
-    ) {}
+    ) {
+    }
 }

@@ -20,7 +20,8 @@ final readonly class StaticGroupKeyProvider implements GroupKeyProviderInterface
         private string $encryptingKey,
         private string $keyNonce,
         private int $tokenId = 1,
-    ) {}
+    ) {
+    }
 
     /**
      * @return string
@@ -57,5 +58,7 @@ final readonly class StaticGroupKeyProvider implements GroupKeyProviderInterface
     /**
      * @return void
      */
-    public function refresh(): void {}
+    public function refresh(): void
+    {
+    }
 }

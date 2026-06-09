@@ -19,7 +19,8 @@ final readonly class DataSetField
     public function __construct(
         public string $name,
         public mixed $value,
-    ) {}
+    ) {
+    }
 
     /**
      * @return mixed

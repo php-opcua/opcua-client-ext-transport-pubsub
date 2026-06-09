@@ -30,5 +30,6 @@ final readonly class NetworkMessage
         public array $dataSetMessages,
         public ?string $dataSetClassId = null,
         public int $uadpVersion = 1,
-    ) {}
+    ) {
+    }
 }

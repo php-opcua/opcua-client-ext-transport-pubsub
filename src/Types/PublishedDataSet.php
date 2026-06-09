@@ -20,5 +20,6 @@ final readonly class PublishedDataSet
         public string $name,
         public DataSetMetaData $metaData,
         public array $publishedVariables = [],
-    ) {}
+    ) {
+    }
 }

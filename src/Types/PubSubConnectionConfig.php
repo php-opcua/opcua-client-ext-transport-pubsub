@@ -20,5 +20,6 @@ final readonly class PubSubConnectionConfig
         public string $endpoint,
         public null|int|string $publisherIdFilter,
         public array $readerGroups,
-    ) {}
+    ) {
+    }
 }

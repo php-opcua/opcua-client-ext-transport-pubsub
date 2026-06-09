@@ -20,5 +20,6 @@ final readonly class UdpOptions
         public int $receiveBufferSize = 65536,
         public int $ttl = 32,
         public bool $reuseAddress = true,
-    ) {}
+    ) {
+    }
 }

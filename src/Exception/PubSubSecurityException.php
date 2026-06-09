@@ -9,4 +9,6 @@ use RuntimeException;
 /**
  * Thrown when a PubSub payload fails signature verification or decryption.
  */
-class PubSubSecurityException extends RuntimeException {}
+class PubSubSecurityException extends RuntimeException
+{
+}

@@ -24,5 +24,6 @@ final readonly class FieldMetaData
         public int $valueRank = -1,
         public array $arrayDimensions = [],
         public ?string $description = null,
-    ) {}
+    ) {
+    }
 }

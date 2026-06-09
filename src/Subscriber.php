@@ -16,7 +16,8 @@ final class Subscriber implements OpcUaSubscriberInterface
      */
     public function __construct(
         private readonly PubSubKernel $kernel,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}
