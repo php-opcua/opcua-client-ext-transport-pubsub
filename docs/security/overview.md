@@ -36,15 +36,15 @@ key nonce. A datagram that fails verification or decryption is dropped and a
 
 Pass a `PubSubSecurityOptions` to `listenUdp()` / `listenOn()`:
 
-@params heading="PubSubSecurityOptions"
-@param name="mode" type="PubSubSecurityMode" required="true"
+<!-- @params heading="PubSubSecurityOptions" -->
+<!-- @param name="mode" type="PubSubSecurityMode" required="true" -->
 The security mode above.
-@endparam
-@param name="keyProvider" type="?GroupKeyProviderInterface"
+<!-- @endparam -->
+<!-- @param name="keyProvider" type="?GroupKeyProviderInterface" -->
 Source of the group keys. Required for `Sign` / `SignAndEncrypt`; `null` for
 `None`.
-@endparam
-@endparams
+<!-- @endparam -->
+<!-- @endparams -->
 
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityMode;
@@ -70,28 +70,28 @@ to rotate them.
 
 For fixed keys you distribute yourself.
 
-@params heading="Constructor"
-@param name="signingKey" type="string" required="true"
+<!-- @params heading="Constructor" -->
+<!-- @param name="signingKey" type="string" required="true" -->
 Raw HMAC-SHA256 signing key.
-@endparam
-@param name="encryptingKey" type="string" required="true"
+<!-- @endparam -->
+<!-- @param name="encryptingKey" type="string" required="true" -->
 Raw AES key (16 bytes for AES-128, 32 for AES-256).
-@endparam
-@param name="keyNonce" type="string" required="true"
+<!-- @endparam -->
+<!-- @param name="keyNonce" type="string" required="true" -->
 Nonce used to build the AES-CTR counter block.
-@endparam
-@param name="tokenId" type="int"
+<!-- @endparam -->
+<!-- @param name="tokenId" type="int" -->
 Security token id. Default `1`.
-@endparam
-@endparams
+<!-- @endparam -->
+<!-- @endparams -->
 
 `refresh()` is a no-op — static keys never change.
 
-@callout variant="warning" title="Key hygiene"
+<!-- @callout variant="warning" title="Key hygiene" -->
 Keys are raw secret bytes. Load them from a secret store or environment, never
 from source control, and match the encrypting-key length to your group's
 policy (`Aes128` vs `Aes256`).
-@endcallout
+<!-- @endcallout -->
 
 ### `SksGroupKeyProvider` — live rotation from a Security Key Service
 
@@ -99,29 +99,29 @@ Pulls the current keys from an OPC UA Security Key Service by calling
 `GetSecurityKeys` through the **classic `opcua-client`**. `refresh()` re-fetches,
 so keys rotate without a restart.
 
-@params heading="Constructor"
-@param name="client" type="OpcUaClientInterface" required="true"
+<!-- @params heading="Constructor" -->
+<!-- @param name="client" type="OpcUaClientInterface" required="true" -->
 A connected core client used to call the SKS.
-@endparam
-@param name="securityGroupId" type="string" required="true"
+<!-- @endparam -->
+<!-- @param name="securityGroupId" type="string" required="true" -->
 The security group to fetch keys for.
-@endparam
-@param name="objectNodeId" type="NodeId|string"
+<!-- @endparam -->
+<!-- @param name="objectNodeId" type="NodeId|string" -->
 SKS object node. Default `i=14443` (the standard `PublishSubscribe` object).
-@endparam
-@param name="methodNodeId" type="NodeId|string"
+<!-- @endparam -->
+<!-- @param name="methodNodeId" type="NodeId|string" -->
 `GetSecurityKeys` method node. Default `i=15215`.
-@endparam
-@param name="securityPolicyUri" type="string"
+<!-- @endparam -->
+<!-- @param name="securityPolicyUri" type="string" -->
 Default `SksGroupKeyProvider::POLICY_AES256_CTR`
 (`…/SecurityPolicy#PubSub-Aes256-CTR`); `POLICY_AES128_CTR` is also provided.
-@endparam
-@param name="requestedKeyCount" type="int"
+<!-- @endparam -->
+<!-- @param name="requestedKeyCount" type="int" -->
 How many future keys to request. Default `1`.
-@endparam
-@endparams
+<!-- @endparam -->
+<!-- @endparams -->
 
-@code-block language="php" label="SKS-backed keys"
+<!-- @code-block language="php" label="SKS-backed keys" -->
 ```php
 use PhpOpcua\Client\ClientBuilder;
 use PhpOpcua\Client\ExtTransportPubSub\Security\SksGroupKeyProvider;
@@ -134,7 +134,7 @@ $keyProvider = new SksGroupKeyProvider(
     securityPolicyUri: SksGroupKeyProvider::POLICY_AES256_CTR,
 );
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 See [Rotating keys with an SKS](../recipes/sks-key-rotation.md) for the
 refresh loop.

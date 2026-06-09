@@ -41,25 +41,25 @@ on older stacks. `poll()` reads with a `socket_select` timeout and returns a
 
 Readonly tuning struct, all parameters optional:
 
-@params heading="Constructor"
-@param name="interface" type="string"
+<!-- @params heading="Constructor" -->
+<!-- @param name="interface" type="string" -->
 Local interface address to bind / join on. Default `'0.0.0.0'` (all
 interfaces). Set to a specific NIC IP to scope multicast membership.
-@endparam
-@param name="receiveBufferSize" type="int"
+<!-- @endparam -->
+<!-- @param name="receiveBufferSize" type="int" -->
 `SO_RCVBUF` in bytes. Default `65536`. Raise it for high-rate publishers to
 avoid datagram drops.
-@endparam
-@param name="ttl" type="int"
+<!-- @endparam -->
+<!-- @param name="ttl" type="int" -->
 Multicast TTL / hop limit. Default `32`.
-@endparam
-@param name="reuseAddress" type="bool"
+<!-- @endparam -->
+<!-- @param name="reuseAddress" type="bool" -->
 Set `SO_REUSEADDR` so several subscribers can bind the same group/port.
 Default `true`.
-@endparam
-@endparams
+<!-- @endparam -->
+<!-- @endparams -->
 
-@code-block language="php" label="scoped multicast"
+<!-- @code-block language="php" label="scoped multicast" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport;
 use PhpOpcua\Client\ExtTransportPubSub\Transport\UdpOptions;
@@ -69,7 +69,7 @@ $transport = new UdpTransport(
     new UdpOptions(interface: '10.0.0.5', receiveBufferSize: 262144),
 );
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## `ReceivedPayload`
 
@@ -105,8 +105,8 @@ A stable identifier used as `sourceUri` / `transportUri` in payloads and events.
 
 Hand your transport to `SubscriberBuilder::listenOn([$myTransport], $readers)`.
 
-@callout variant="info" title="Decoding is the codec's job"
+<!-- @callout variant="info" title="Decoding is the codec's job" -->
 A transport only moves bytes. Decoding (UADP/JSON) and security are handled
 downstream by the codec and the kernel — your transport never parses a
 NetworkMessage.
-@endcallout
+<!-- @endcallout -->

@@ -15,7 +15,7 @@ next: { label: 'Rotating keys with an SKS', href: './sks-key-rotation.md' }
 A runnable worker: join `239.0.0.1:4840`, accept two DataSetWriters from one
 publisher, and print each field. `SIGTERM` stops the loop cleanly.
 
-@code-block language="php" label="worker.php"
+<!-- @code-block language="php" label="worker.php" -->
 ```php
 <?php
 require __DIR__ . '/vendor/autoload.php';
@@ -60,7 +60,7 @@ pcntl_signal(SIGINT,  fn () => $subscriber->stop());
 $subscriber->run();
 echo "stopped\n";
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## Notes
 
@@ -73,7 +73,7 @@ echo "stopped\n";
   PSR-14 dispatcher and watch [`MessageDecodeError`](../api/events.md) — a
   reader-key or metadata mismatch shows up there.
 
-@callout variant="tip" title="Custom loop instead of run()"
+<!-- @callout variant="tip" title="Custom loop instead of run()" -->
 Swap `run()` for a `poll()` loop if you already have a scheduler:
 
 ```php
@@ -82,4 +82,4 @@ while ($keepGoing) {
     // …your periodic work…
 }
 ```
-@endcallout
+<!-- @endcallout -->

@@ -65,18 +65,18 @@ ReceivedPayload     NetworkMessage         verify / decrypt          DataSetRead
 
 A reader is identified by three values that must equal the ones on the wire:
 
-@params heading="Demux key"
-@param name="publisherId" type="int|string" required="true"
+<!-- @params heading="Demux key" -->
+<!-- @param name="publisherId" type="int|string" required="true" -->
 Byte / UInt16 / UInt32 / UInt64 (as `int`) or String. Must match the
 publisher's id type and value.
-@endparam
-@param name="writerGroupId" type="int" required="true"
+<!-- @endparam -->
+<!-- @param name="writerGroupId" type="int" required="true" -->
 The WriterGroup id.
-@endparam
-@param name="dataSetWriterId" type="int" required="true"
+<!-- @endparam -->
+<!-- @param name="dataSetWriterId" type="int" required="true" -->
 The DataSetWriter id within the group.
-@endparam
-@endparams
+<!-- @endparam -->
+<!-- @endparams -->
 
 Datagrams whose triple matches no configured reader are silently ignored —
 that is how one multicast group carrying several writers is filtered down to
@@ -92,10 +92,10 @@ two driving modes through the [`Subscriber`](../api/subscriber.md):
 - **`poll(int $timeoutMs)`** — one bounded polling pass; returns and lets you
   integrate with your own loop.
 
-@callout variant="info" title="Where to extend"
+<!-- @callout variant="info" title="Where to extend" -->
 The kernel calls every registered [`PubSubModule`](../api/modules.md) for each
 decoded `DataSetMessage`, and emits [PSR-14 events](../api/events.md) at each
 stage. Custom transports plug in via
 [`PubSubTransportInterface`](../api/transports.md). None of this requires
 forking the package.
-@endcallout
+<!-- @endcallout -->

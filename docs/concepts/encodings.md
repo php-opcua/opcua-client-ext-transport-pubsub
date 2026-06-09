@@ -68,12 +68,12 @@ Each `DataSetMessage` declares how its fields are encoded, exposed as the
 | `FieldEncoding::RawData` | `1` | Bare values in DataSet order — the layout comes from the reader's `DataSetMetaData` |
 | `FieldEncoding::DataValue` | `2` | Variant plus status code and timestamps |
 
-@callout variant="warning" title="RawData needs metadata"
+<!-- @callout variant="warning" title="RawData needs metadata" -->
 With `RawData` there is no type information on the wire — the decoder relies
 entirely on the field order and types in your `DataSetMetaData`. If the
 metadata does not match the publisher's DataSet, decoding will be wrong or
 fail. See [Readers & metadata](../api/readers-and-metadata.md).
-@endcallout
+<!-- @endcallout -->
 
 The decoded `FieldEncoding` is available on every message as
 `$dataSetMessage->fieldEncoding`.

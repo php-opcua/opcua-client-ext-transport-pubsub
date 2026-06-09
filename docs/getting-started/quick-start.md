@@ -96,7 +96,7 @@ SubscriberBuilder::create()
     ->listenUdp(endpoint: 'opc.udp://239.0.0.1:4840', readers: [$reader]);
 ```
 
-@callout variant="tip" title="Graceful shutdown"
+<!-- @callout variant="tip" title="Graceful shutdown" -->
 `run()` blocks. Wire `stop()` to a signal handler (`pcntl_signal(SIGTERM, fn () => $subscriber->stop())`)
 so the loop exits cleanly between polls.
-@endcallout
+<!-- @endcallout -->

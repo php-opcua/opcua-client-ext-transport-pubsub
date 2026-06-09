@@ -18,29 +18,29 @@ One reader per DataSet you want to receive. The first three fields are the
 [demux key](../concepts/how-it-works.md#demultiplexing); the metadata drives
 field decoding.
 
-@params heading="Constructor"
-@param name="publisherId" type="int|string" required="true"
+<!-- @params heading="Constructor" -->
+<!-- @param name="publisherId" type="int|string" required="true" -->
 Must match the publisher's id (type and value). `int` covers Byte/UInt16/
 UInt32/UInt64; `string` covers the String id type.
-@endparam
-@param name="writerGroupId" type="int" required="true"
+<!-- @endparam -->
+<!-- @param name="writerGroupId" type="int" required="true" -->
 WriterGroup id. Must be a positive integer.
-@endparam
-@param name="dataSetWriterId" type="int" required="true"
+<!-- @endparam -->
+<!-- @param name="dataSetWriterId" type="int" required="true" -->
 DataSetWriter id within the group. Must be a positive integer.
-@endparam
-@param name="dataSetMetaData" type="DataSetMetaData" required="true"
+<!-- @endparam -->
+<!-- @param name="dataSetMetaData" type="DataSetMetaData" required="true" -->
 The field layout used to decode and name fields.
-@endparam
-@param name="name" type="?string"
+<!-- @endparam -->
+<!-- @param name="name" type="?string" -->
 Optional human label for logs. Default `null`.
-@endparam
-@endparams
+<!-- @endparam -->
+<!-- @endparams -->
 
-@callout variant="warning" title="Validation"
+<!-- @callout variant="warning" title="Validation" -->
 Invalid ids (negative `writerGroupId` / `dataSetWriterId`, a negative integer
 `publisherId`) raise `InvalidDataSetReaderException` at construction.
-@endcallout
+<!-- @endcallout -->
 
 ## `DataSetMetaData`
 
@@ -97,7 +97,7 @@ Read the metadata Variable from a running server with the classic
 `opcua-client` and decode it. Useful when the publisher also exposes a
 client/server endpoint.
 
-@code-block language="json" label="line1.json — fromJsonFile"
+<!-- @code-block language="json" label="line1.json — fromJsonFile" -->
 ```json
 {
   "name": "Line1",
@@ -109,7 +109,7 @@ client/server endpoint.
   ]
 }
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 `builtInType` values are the numeric OPC UA BuiltinType ids from the core
 (`PhpOpcua\Client\Types\BuiltinType`) — e.g. `1` Boolean, `6` Int32,

@@ -72,7 +72,7 @@ Build a subscriber over **several** transports at once (multiple UDP groups,
 or custom `PubSubTransportInterface` implementations). The kernel polls them
 round-robin.
 
-@code-block language="php" label="multiple transports"
+<!-- @code-block language="php" label="multiple transports" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Transport\UdpTransport;
 use PhpOpcua\Client\ExtTransportPubSub\Transport\UdpOptions;
@@ -87,7 +87,7 @@ $subscriber = SubscriberBuilder::create()
         readers: [$readerA, $readerB],
     );
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## `Subscriber` (`OpcUaSubscriberInterface`)
 
@@ -108,7 +108,7 @@ Request the `run()` loop to exit. Safe to call from a signal handler.
 <!-- @method name="isRunning(): bool" returns="bool" visibility="public" -->
 Whether the `run()` loop is currently active.
 
-@callout variant="tip" title="run() vs poll()"
+<!-- @callout variant="tip" title="run() vs poll()" -->
 `run()` is `poll()` in a loop. If you already have an event loop (ReactPHP,
 Swoole, a cron tick), call `poll($timeoutMs)` yourself and skip `run()`.
-@endcallout
+<!-- @endcallout -->

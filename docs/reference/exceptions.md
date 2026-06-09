@@ -62,9 +62,9 @@ Thrown from `PubSubTransportInterface::open()` when a transport cannot be
 opened (e.g. the socket can't bind or join the group). In the kernel this
 surfaces as a [`TransportError`](../api/events.md) event during `open()`.
 
-@callout variant="info" title="Two failure regimes"
+<!-- @callout variant="info" title="Two failure regimes" -->
 **Per-datagram** problems (`PubSubDecodeException`, verification failures) are
 caught by the kernel and turned into events so the loop keeps running.
 **Configuration and transport-open** problems surface as exceptions/events you
 act on. Match your error handling to the regime.
-@endcallout
+<!-- @endcallout -->

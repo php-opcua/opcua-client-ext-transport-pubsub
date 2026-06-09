@@ -27,7 +27,7 @@ the originating transport URI. Default: no-op.
 <!-- @method name="reset(): void" returns="void" visibility="public" -->
 Called to clear any per-run state. Default: no-op.
 
-@code-block language="php" label="a metrics module"
+<!-- @code-block language="php" label="a metrics module" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Module\PubSubModule;
 use PhpOpcua\Client\ExtTransportPubSub\Types\DataSetMessage;
@@ -53,7 +53,7 @@ final class CountByWriter extends PubSubModule
     }
 }
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 Register it on the builder:
 
@@ -73,9 +73,9 @@ SubscriberBuilder::create()
 for a quick handler, a module when you need to hold state, expose results, or
 package reusable behaviour.
 
-@callout variant="info" title="Built-in module"
+<!-- @callout variant="info" title="Built-in module" -->
 `DataSetReaderModule` (constructed from your `DataSetReaderConfig[]`) is added
 automatically by the builder. It holds the reader registry the codec uses to
 decode and demux each datagram, so your modules — and your callbacks — only
 see `DataSetMessage`s that matched a configured reader.
-@endcallout
+<!-- @endcallout -->

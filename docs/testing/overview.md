@@ -20,7 +20,7 @@ reproduce.
 
 ## A fake transport
 
-@code-block language="php" label="FakeTransport"
+<!-- @code-block language="php" label="FakeTransport" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Transport\PubSubTransportInterface;
 use PhpOpcua\Client\ExtTransportPubSub\Transport\ReceivedPayload;
@@ -49,11 +49,11 @@ final class FakeTransport implements PubSubTransportInterface
     }
 }
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## A collecting dispatcher
 
-@code-block language="php" label="CollectingDispatcher"
+<!-- @code-block language="php" label="CollectingDispatcher" -->
 ```php
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -75,14 +75,14 @@ final class CollectingDispatcher implements EventDispatcherInterface
     }
 }
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## Drive it with `poll()`
 
 Enqueue a real UADP/JSON datagram (capture one from your publisher, or build
 it with the codecs), then assert on what came out:
 
-@code-block language="php" label="a test"
+<!-- @code-block language="php" label="a test" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Event\DataSetMessageReceived;
 use PhpOpcua\Client\ExtTransportPubSub\SubscriberBuilder;
@@ -104,15 +104,15 @@ $messages = $subscriber->poll(timeoutMs: 0);   // returns list<DataSetMessage>
 expect($messages)->toHaveCount(1);
 expect($dispatcher->of(DataSetMessageReceived::class))->toHaveCount(1);
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 `poll()` returns the `DataSetMessage`s decoded in that pass, and the
 dispatcher captures every event — together they give you full visibility with
 no I/O. Reuse the same fixtures across security modes by wrapping the bytes
 with the matching `PubSubSecurityOptions`.
 
-@callout variant="tip" title="Fetching metadata in tests"
+<!-- @callout variant="tip" title="Fetching metadata in tests" -->
 `DataSetMetaData::fetchFromServer()` and `SksGroupKeyProvider` both take an
 `OpcUaClientInterface` — pass the core's `MockClient` to test those paths
 without a server.
-@endcallout
+<!-- @endcallout -->

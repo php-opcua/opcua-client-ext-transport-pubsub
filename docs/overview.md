@@ -34,12 +34,12 @@ Unlike the classic client/server subscription model (`opc.tcp://` with
 `CreateSubscription` / monitored items), PubSub is connectionless — the
 subscriber just listens.
 
-@callout variant="info" title="Subscriber only"
+<!-- @callout variant="info" title="Subscriber only" -->
 This package implements the **Subscriber** role. It does not publish
 PubSub streams, and it does not change the core `opcua-client`. MQTT / AMQP
 / WebSocket transports each live in their own package implementing
 [`PubSubTransportInterface`](./api/transports.md).
-@endcallout
+<!-- @endcallout -->
 
 ## What ships in v4.4.0
 
@@ -57,7 +57,7 @@ PubSub streams, and it does not change the core `opcua-client`. MQTT / AMQP
 
 ## The shape of a subscriber
 
-@code-block language="php" label="the canonical shape"
+<!-- @code-block language="php" label="the canonical shape" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\SubscriberBuilder;
 use PhpOpcua\Client\ExtTransportPubSub\Types\DataSetMessage;
@@ -82,6 +82,6 @@ $subscriber = SubscriberBuilder::create()
 
 $subscriber->run();   // blocking event loop
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 Everything past the builder is covered in [How it works](./concepts/how-it-works.md).

@@ -44,7 +44,7 @@ produces none of the success events.
 
 ## Example
 
-@code-block language="php" label="metrics + audit via PSR-14"
+<!-- @code-block language="php" label="metrics + audit via PSR-14" -->
 ```php
 use PhpOpcua\Client\ExtTransportPubSub\Event\DataSetMessageReceived;
 use PhpOpcua\Client\ExtTransportPubSub\Event\MessageDecodeError;
@@ -69,11 +69,11 @@ SubscriberBuilder::create()
     ->onDataSetMessage($callback)
     ->listenUdp(endpoint: 'opc.udp://239.0.0.1:4840', readers: [$reader]);
 ```
-@endcode-block
+<!-- @endcode-block -->
 
-@callout variant="tip" title="Events vs callbacks"
+<!-- @callout variant="tip" title="Events vs callbacks" -->
 `onDataSetMessage()` is the place for business logic on matched messages.
 Events are the place for cross-cutting concerns — metrics, audit logging,
 alerting on `SecurityValidationFailed` / `MessageDecodeError` — and for the
 `NetworkMessage`/`DataSetField` granularity the callback does not give you.
-@endcallout
+<!-- @endcallout -->

@@ -15,15 +15,15 @@ next: { label: 'Testing the kernel',     href: '../testing/overview.md' }
 `SksGroupKeyProvider` pulls the current group keys from an OPC UA Security Key
 Service via `GetSecurityKeys`. You drive the rotation by calling `refresh()`.
 
-@callout variant="warning" title="refresh() first"
+<!-- @callout variant="warning" title="refresh() first" -->
 The key accessors throw until `refresh()` has succeeded at least once. Call
 `refresh()` **before** you start listening, then again on your rotation
 schedule.
-@endcallout
+<!-- @endcallout -->
 
 ## Set up
 
-@code-block language="php" label="connect SKS + build provider"
+<!-- @code-block language="php" label="connect SKS + build provider" -->
 ```php
 use PhpOpcua\Client\ClientBuilder;
 use PhpOpcua\Client\ExtTransportPubSub\Security\PubSubSecurityMode;
@@ -47,13 +47,13 @@ $security = new PubSubSecurityOptions(
     keyProvider: $keys,
 );
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## Subscribe and rotate
 
 Run your own `poll()` loop so you can re-`refresh()` on a schedule:
 
-@code-block language="php" label="poll loop with rotation"
+<!-- @code-block language="php" label="poll loop with rotation" -->
 ```php
 $subscriber = SubscriberBuilder::create()
     ->onDataSetMessage($callback)
@@ -74,17 +74,17 @@ while ($running) {
     }
 }
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 The codec reads the provider's `signingKey()` / `encryptingKey()` /
 `keyNonce()` / `tokenId()` per datagram, so a successful `refresh()` takes
 effect on the very next message — no restart, no gap.
 
-@callout variant="danger" title="Failed refresh"
+<!-- @callout variant="danger" title="Failed refresh" -->
 If `refresh()` can't reach the SKS it throws `PubSubSecurityException`. Decide
 your policy explicitly: keep using the last known-good keys for a grace period,
 or stop. Don't let an unhandled throw kill the loop silently.
-@endcallout
+<!-- @endcallout -->
 
 ## Defaults
 

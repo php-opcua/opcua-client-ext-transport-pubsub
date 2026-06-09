@@ -12,11 +12,11 @@ next: { label: 'Quick start', href: './quick-start.md' }
 
 # Installation
 
-@code-block language="bash" label="composer"
+<!-- @code-block language="bash" label="composer" -->
 ```bash
 composer require php-opcua/opcua-client-ext-transport-pubsub
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 ## Requirements
 
@@ -27,20 +27,20 @@ composer require php-opcua/opcua-client-ext-transport-pubsub
 | `ext-openssl` | Transitive — required by the core for `Sign` / `SignAndEncrypt` |
 | `php-opcua/opcua-client` ^4.4 | The core client; pulled in automatically |
 
-@callout variant="note" title="ext-sockets"
+<!-- @callout variant="note" title="ext-sockets" -->
 The UDP transport is built on `ext-sockets` (not stream sockets), so it can
 join IPv4 multicast groups via `MCAST_JOIN_GROUP` (with a legacy
 `IP_ADD_MEMBERSHIP` fallback) and set `SO_REUSEADDR`, the receive buffer,
 and TTL. Make sure `ext-sockets` is enabled — `php -m | grep sockets`.
-@endcallout
+<!-- @endcallout -->
 
 ## Verify
 
-@code-block language="bash" label="sanity check"
+<!-- @code-block language="bash" label="sanity check" -->
 ```bash
 php -r "require 'vendor/autoload.php';
   echo class_exists(PhpOpcua\Client\ExtTransportPubSub\SubscriberBuilder::class) ? 'ok' : 'missing';"
 ```
-@endcode-block
+<!-- @endcode-block -->
 
 Next: build a working subscriber in [Quick start](./quick-start.md).
